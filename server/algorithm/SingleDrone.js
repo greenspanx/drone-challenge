@@ -1,20 +1,13 @@
-// Deduplicate Array:
-// [ [ 4, 2 ], [ 6, 2 ], [ 6, 4 ], [ 4, 4 ], [ 4, 2 ], [ 4, 0 ] ]
-class DeduplicateArrayCoordinate {
-  constructor(coordinateArray=[]){
-    this.coordinateArray = coordinateArray;
-  }
+const {
+  DroneInterface,
+  AllocateInstructions,
+  DeduplicateArrayCoordinate
+} = require('./Basic');
 
-  DeduplicateArray () {
-    const uniqueArray = Array.from(new Set(this.coordinateArray.map(JSON.stringify)), JSON.parse);
-    return uniqueArray;
-  }
 
-}
 
-//
-class SinglePathDeduplication {
-  constructor(instructionStr=''){
+class SingleDrone {
+   constructor(instructionStr=''){
     this.instructionStr = instructionStr;
   }
 
@@ -45,8 +38,8 @@ class SinglePathDeduplication {
       let eastCounts = (String(fragmentRoute).match(/>/g) || []).length;
       let westCounts = (String(fragmentRoute).match(/</g) || []).length;
 
-      let xCoordinate = northCounts - southCounts;
-      let yCoordinate = eastCounts - westCounts;
+      let xCoordinate = eastCounts - westCounts;
+      let yCoordinate = northCounts - southCounts;
 
       singleCoordinate = [xCoordinate, yCoordinate];
       allCoordinate.push(singleCoordinate);
@@ -55,19 +48,15 @@ class SinglePathDeduplication {
 
     // finally, deduplicate array allCoordinate
     console.log(allCoordinate);
+
     const newAllCoordinate = new DeduplicateArrayCoordinate(allCoordinate);
-    let uniqueArray = newAllCoordinate.DeduplicateArray();
+    let uniqueArray = newAllCoordinate.deduplicateArray();
 
     console.log(uniqueArray);
-    // return 
+    // return
     return uniqueArray;
   }
 
 }
 
-
-
-module.exports = {
-  DeduplicateArrayCoordinate,
-  SinglePathDeduplication
-};
+module.exports = SingleDrone;

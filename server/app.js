@@ -14,8 +14,7 @@ const {
 	finalErrorHandler,
 } = require('./utils');
 
-const { PartOneController} = require('./controllers/PartOneController');
-const { PartTwoController} = require('./controllers/PartTwoController');
+const Controller = require('./controllers/Controller');
 
 app.use(bodyParser.json());
 app.use(morgan(':date[clf] :remote-addr, :referrer, :url :response-time ms', {
@@ -23,14 +22,12 @@ app.use(morgan(':date[clf] :remote-addr, :referrer, :url :response-time ms', {
 }));
 app.use(cors());
 
-app.get('/', (req, res) => {
+app.get('/', (req, res, next) => {
     res.json({foo: 'bar'});
 });
 
-// part 1
-app.get('/api/v1/part_one', PartOneController);
-// part 2
-app.get('/api/v1/part_two', PartTwoController);
+// part 1 and part 2
+app.get('/api/v1/drone', Controller);
 
 // Error handler here
 // Error handler from './utils'

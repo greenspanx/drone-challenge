@@ -20,6 +20,10 @@ export const BasicForm = (props) =>  {
   console.log('BasicForm props.singleShots:', props.singleShots);
 
   const _handleChange = (e) => {
+    const inputRegEx = /^[x<>v\^]*$/;
+  	if(!e.target.value.match(inputRegEx)){
+  		alert('Invalid Input, Must Be: x, <, >, ^, v');
+  	}    
     props.updateInput(e.target.value);
   }
 
