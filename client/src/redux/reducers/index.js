@@ -1,10 +1,8 @@
 import { combineReducers } from 'redux';
-import PartOneReducer from './PartOneReducer';
-import PartTwoReducer from './PartTwoReducer';
+import DroneReducer from './DroneReducer';
 
 const appReducer = combineReducers({
-  partOne: PartOneReducer,
-  partTwo: PartTwoReducer
+  drone: DroneReducer
 });
 
 const rootReducer = (state, action) => {

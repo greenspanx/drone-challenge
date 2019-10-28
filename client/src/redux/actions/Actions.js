@@ -1,59 +1,61 @@
 import axios from 'axios';
+import { types } from '../actions/ActionTypes';
 
 export default class Actions {
-  constructor(partNum){
-    switch (partNum){
-      case 'part_one':
-        this.partNum = 'ONE';
-        this.urlEndpoint = '/api/v1/part_one';
-        break;
-      case 'part_two':
-        this.partNum = 'TWO';
-        this.urlEndpoint = '/api/v1/part_two';
-        break;
-      default:
-        this.partNum = 'ONE';
-        this.urlEndpoint = '/api/v1/part_one';
-    }
+  constructor(urlEndpoint=''){
+    this.urlEndpoint = urlEndpoint;
     // api host
     if(process.env.NODE_ENV !== 'production'){
       this.apiHost = 'http://localhost:4001';
     }else{
       this.apiHost = process.env.API_HOST;
     }
-
   }
 
   loading () {
     return {
-      type: `PART_${this.partNum}_LOADING`,
+      type: types.LOADING,
       payload: true
+    };
+  }
+
+  updateExecution (ts) {
+    return {
+      type: types.EXECUTION,
+      payload: ts
     };
   }
 
   updateInput (input) {
 		return {
-      type: `PART_${this.partNum}_UPDATE_INPUT`,
+      type: types.UPDATE_INPUT,
       payload: String(input)
-    };	
+    };
   }
 
-  fetchResult (instructions) {
+  updateDroneCounts (counts) {
+    return {
+      type: types.UPDATE_COUNTS,
+      payload: String(counts)
+    };
+  }
+
+  fetchResult (instructions, drone_counts) {
     console.log('actions instructions: ', instructions);
+    console.log('actions drone_counts: ', drone_counts);
     console.log('actions instructions.length: ', instructions.length);
     return dispatch => {
       dispatch(this.loading());
-  	  axios.post(`${this.apiHost}${this.urlEndpoint}`, {data: {instructions}})
+      // axios.get does not have req.body; req.body: {instructions, drone_counts}
+  	  axios.post(`${this.apiHost}${this.urlEndpoint}`, {instructions, drone_counts})
     		.then((res) => {
     			console.log('res.data: ', res.data);
+          dispatch({type: types.FETCH, payload: res.data.uniqueShots});
     		})
     		.catch((err) => {
-    			dispatch({type:`PART_${this.partNum}_ERR`, payload:err.message});
+    			dispatch({type: types.ERR, payload: err.message});
     		});
 
-      setTimeout(() => {
-        dispatch({type:`PART_${this.partNum}_FETCH`, payload:instructions + 'Simon'});
-      }, 3000);
     };
   };
 

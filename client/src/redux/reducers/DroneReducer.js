@@ -1,34 +1,46 @@
 import { types } from '../actions/ActionTypes';
 
 export default function PartOneReducer(state = {
-  instructions: '^^vv>><<x',
+  instructions: '',
+  drone_counts: '',
   message: '',
   execution: true,
-  singleShots: '0',
-  loadingIns: false
+  singleShots: '',
+  loading: false
 }, action) {
   const newState = {...state};
   switch (action.type) {
-    case types.PART_ONE_UPDATE_INPUT:
+    case types.UPDATE_INPUT:
       return {
         ...state,
+        message: '',
         instructions: action.payload
       };
-    case types.PART_ONE_LOADING:
+    case types.UPDATE_COUNTS:
       return {
         ...state,
-        loadingIns: action.payload
+        drone_counts: action.payload
       };
-    case types.PART_ONE_FETCH:
+    case types.LOADING:
       return {
         ...state,
-        loadingIns: false,
+        loading: action.payload
+      };
+    case types.FETCH:
+      return {
+        ...state,
+        loading: false,
         singleShots: action.payload
       };
-    case types.PART_ONE_ERR:
+    case types.ERR:
       return {
         ...state,
         message: action.payload
+      };
+    case types.EXECUTION:
+      return {
+        ...state,
+        execution: action.payload
       };
     default:
       return newState;

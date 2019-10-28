@@ -6,31 +6,42 @@ import {
   CssBaseline,
   TextField,
   Grid,
-  Typography
+  Typography,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  CircularProgress
 } from '@material-ui/core';
+
 import SettingsRemoteOutlined from '@material-ui/icons/SettingsRemoteOutlined';
 //
 import { useStyles } from '../styles';
 
-
 //
 export const BasicForm = (props) =>  {
-  const classes = useStyles();
-  console.log('BasicForm props.instructions:', props.instructions);
-  console.log('BasicForm props.singleShots:', props.singleShots);
 
-  const _handleChange = (e) => {
-    const inputRegEx = /^[x<>v\^]*$/;
-  	if(!e.target.value.match(inputRegEx)){
-  		alert('Invalid Input, Must Be: x, <, >, ^, v');
-  	}    
-    props.updateInput(e.target.value);
+  const classes = useStyles();
+
+  const _handleInputChange = (e) => {
+    const inputRegEx = /^[x<>v^]*$/g;
+  	if(e.target.value.match(inputRegEx)){
+      props.updateExecution(true);
+      props.updateInput(e.target.value);
+  	}else{
+      alert('Invalid Input, Must Be: x, <, >, ^, v');
+      props.updateExecution(false);
+    }
   }
 
 
-  const _handleSubmit = (e, vals = props.instructions) => {
+  const _handleOptionChange = (e) => {
+    props.updateDroneCounts(e.target.value);
+  }
+
+
+  const _handleSubmit = (e, ins = props.instructions, counts = props.drone_counts) => {
     e.preventDefault();
-    props.fetchResult(vals);
+    props.fetchResult(ins, counts);
   }
 
   return (
@@ -47,48 +58,68 @@ export const BasicForm = (props) =>  {
           <TextField
             variant="outlined"
             margin="normal"
-            required
             fullWidth
-            id="instructions"
+            id="instructions_string"
             label={props.label}
-            name="instructions"
+            name="instructions_string"
             autoFocus
-            onChange={(e) => _handleChange(e)}
+            onChange={(e) => _handleInputChange(e)}
           />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Submit Instructions
-          </Button>
 
-          <div className={classes.root}>
-            <Paper className={classes.paperMessage}>
-              <Grid container wrap="nowrap" spacing={2}>
-                <Grid item>
-                  <Avatar>C</Avatar>
+        <RadioGroup aria-label="position" name="position" value={props.drone_counts} onChange={(e) => _handleOptionChange(e)} row>
+              <FormControlLabel
+                value="1"
+                control={<Radio color="primary" />}
+                label="One Drone"
+                labelPlacement="start"
+              />
+              <FormControlLabel
+                value="2"
+                control={<Radio color="primary" />}
+                label="Two Drones"
+                labelPlacement="start"
+              />
+          </RadioGroup>
+
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              disabled={!props.execution}
+            >
+              Submit Instructions
+            </Button>
+
+            <div className={classes.root}>
+              <Paper className={classes.paperMessage}>
+                <Grid container wrap="nowrap" spacing={2}>
+                  <Grid item>
+                    <Avatar>C</Avatar>
+                  </Grid>
+                  <Grid item xs zeroMinWidth>
+                    <Typography noWrap>{'Valid Billboard Photos: '}{props.loading ?
+                        <CircularProgress className={classes.progress} />
+                        : props.singleShots }
+                    </Typography>
+                  </Grid>
                 </Grid>
-                <Grid item xs zeroMinWidth>
-                  <Typography noWrap>{props.singleShots}</Typography>
+              </Paper>
+              <Paper className={classes.paperMessage}>
+                <Grid container wrap="nowrap" spacing={2}>
+                  <Grid item>
+                    <Avatar>M</Avatar>
+                  </Grid>
+                  <Grid item xs>
+                    <Typography color='error' noWrap>{!!props.message && `Error Messages: ${props.message}`}</Typography>
+                  </Grid>
                 </Grid>
-              </Grid>
-            </Paper>
-            <Paper className={classes.paperMessage}>
-              <Grid container wrap="nowrap" spacing={2}>
-                <Grid item>
-                  <Avatar>M</Avatar>
-                </Grid>
-                <Grid item xs>
-                  <Typography color='error' noWrap>{props.message}</Typography>
-                </Grid>
-              </Grid>
-            </Paper>
-          </div>
+              </Paper>
+            </div>
 
         </form>
+
       </div>
     </React.Fragment>
   );

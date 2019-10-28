@@ -33,4 +33,7 @@ export const useStyles = makeStyles(theme => ({
     margin: `${theme.spacing(1)}px auto`,
     padding: theme.spacing(2),
   },
+  progress: {
+    margin: theme.spacing(1),
+  },
 }));

@@ -3,8 +3,7 @@ import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import { Provider } from 'react-redux';
 //
-import PartOne from './components/PartOne';
-import PartTwo from './components/PartTwo';
+import Drone from './components/Drone';
 import FooterCopyright from './components/FooterCopyright';
 import store from './redux/store';
 
@@ -15,8 +14,7 @@ export default function App () {
     <div style={{ textAlign: "center" }}>
       <Provider store={store}>
         <Container component="main" maxWidth="xs">
-          <PartOne />
-          <PartTwo />
+          <Drone />
           <Box mt={8}>
             <FooterCopyright
               urlLink={'https://cv.simonxie.dev'}

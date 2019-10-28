@@ -5,21 +5,21 @@ function logErrors (err, req, res, next) {
 
 function clientErrorHandler (err, req, res, next) {
   if (req.xhr) {
-    res.status(500).send({ error: 'Something failed!' })
+    res.status(500).json({ error: 'Something failed!' })
   } else {
     next(err)
   }
 };
 
 function error404Handler (err, req, res, next) {
-    let err = new Error('Path or File Not Found!');
-    err.status = 404;
-    next(err);
+    let errMessage = new Error('Path or File Not Found!');
+    errMessage.status = 404;
+    next(errMessage);
 };
 
 function finalErrorHandler (err, req, res, next) {
   res.status(500)
-  res.render('error', { error: err })
+  res.json({ error: err.message })
 };
 
 module.exports = {

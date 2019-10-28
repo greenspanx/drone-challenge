@@ -16,7 +16,13 @@ const {
 
 const Controller = require('./controllers/Controller');
 
-app.use(bodyParser.json());
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
+
+// log access data 
 app.use(morgan(':date[clf] :remote-addr, :referrer, :url :response-time ms', {
   stream: fs.createWriteStream(path.join(__dirname, 'log/access.log'), {flags:'a'})
 }));
@@ -27,7 +33,7 @@ app.get('/', (req, res, next) => {
 });
 
 // part 1 and part 2
-app.get('/api/v1/drone', Controller);
+app.post('/api/v1/drone', Controller);
 
 // Error handler here
 // Error handler from './utils'

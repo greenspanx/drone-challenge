@@ -40,12 +40,15 @@ The project consists of an express route in `api.js` and a react client in `clie
 ## Getting Started
 
 ```sh
-# install dependencies
+# install dependencies and run
+cd client 
 yarn install
+yarn start 
 
-# Run the api and client
-yarn watch
+cd server
+yarn install
+yarn start 
 
 # open the app
-open http://localhost:4000
+open http://localhost:3000
 ```
