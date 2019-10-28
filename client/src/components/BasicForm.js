@@ -99,10 +99,12 @@ export const BasicForm = (props) =>  {
                     <Avatar>C</Avatar>
                   </Grid>
                   <Grid item xs zeroMinWidth>
-                    <Typography noWrap>{'Valid Billboard Photos: '}{props.loading ?
-                        <CircularProgress className={classes.progress} />
-                        : props.singleShots }
-                    </Typography>
+				  {
+					  props.loading ?
+					  <CircularProgress className={classes.progress} />
+					  : <Typography noWrap>{'Valid Billboard Photos: '}{props.singleShots }</Typography>
+				  }
+                    
                   </Grid>
                 </Grid>
               </Paper>
