@@ -1,8 +1,9 @@
 const { DeduplicateArrayCoordinate } = require('./Basic');
 const SingleDrone = require('./SingleDrone');
 //
-class DualDrone {
-  constructor(insArray=['', '']){
+class DualDrone extends DeduplicateArrayCoordinate {
+  constructor(insArray=['', ''], coordinateArray=[]){
+    super(coordinateArray=[]);
     this.insArray = insArray;
   }
 
@@ -16,10 +17,9 @@ class DualDrone {
     const droneTwoUnique = droneTwo.deduplicatePath();
 
     // concat droneOneUnique and droneTwoUnique
-    const allPhotoPositions = droneOneUnique.concat(droneTwoUnique);
+    this.coordinateArray = droneOneUnique.concat(droneTwoUnique);
     // deduplicate allPhotoPositions
-    const allUniquePositions = new DeduplicateArrayCoordinate(allPhotoPositions);
-    let uniqueArray = allUniquePositions.deduplicateArray();
+    let uniqueArray = this.deduplicateArray(this.coordinateArray);
     console.log(uniqueArray);
 
     // return

@@ -6,9 +6,10 @@ const {
 
 
 
-class SingleDrone {
-   constructor(instructionStr=''){
-    this.instructionStr = instructionStr;
+class SingleDrone extends DeduplicateArrayCoordinate {
+   constructor(instructionStr='', coordinateArray=[]){
+     super(coordinateArray);
+     this.instructionStr = instructionStr;
   }
 
   // get index of each x in instruction
@@ -26,7 +27,6 @@ class SingleDrone {
 
   deduplicatePath () {
     const indexValueOfx = this.getIndexOfEachx(this.instructionStr);
-    let allCoordinate = [];
 
     for(let i = 0; i < indexValueOfx.length; i++){
       let fragmentRoute = this.instructionStr.slice(0,indexValueOfx[i]);
@@ -42,15 +42,14 @@ class SingleDrone {
       let yCoordinate = northCounts - southCounts;
 
       singleCoordinate = [xCoordinate, yCoordinate];
-      allCoordinate.push(singleCoordinate);
+      this.coordinateArray.push(singleCoordinate);
 
     }
 
-    // finally, deduplicate array allCoordinate
-    console.log(allCoordinate);
+    // finally, deduplicate array this.coordinateArray
+    console.log(this.coordinateArray);
 
-    const newAllCoordinate = new DeduplicateArrayCoordinate(allCoordinate);
-    let uniqueArray = newAllCoordinate.deduplicateArray();
+    let uniqueArray = this.deduplicateArray(this.coordinateArray);
 
     console.log(uniqueArray);
     // return

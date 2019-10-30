@@ -51,10 +51,11 @@ export const BasicForm = (props) =>  {
     // Check for the various File API support.
     if (window.File && window.FileReader && window.FileList && window.Blob) {
        let file = e.target.files[0];
+
        const reader = new FileReader();
 
        let textFile = /text.*/;
-       // to avoid null file selected: !!file 
+       // to avoid null file selected: !!file
        if (!!file && file.type.match(textFile)) {
           reader.onload = function (e) {
             let text = e.target.result;
@@ -137,10 +138,11 @@ export const BasicForm = (props) =>  {
             <Input
               name="upload_txt_file"
               onChange={(e) => _handleUploadFile(e)}
+              onClick={(e)=> { e.target.value = null }}
               type="file"
               placeholder="upload txt file"
               required={true}
-
+              accept="text/*"
             />
           }
 
