@@ -1,6 +1,7 @@
 import { types } from '../actions/ActionTypes';
 
 export default function PartOneReducer(state = {
+  tab_selector: 'input', // 'input'  or 'upload'
   instructions: '',
   drone_counts: '',
   message: '',
@@ -10,6 +11,12 @@ export default function PartOneReducer(state = {
 }, action) {
   const newState = {...state};
   switch (action.type) {
+    case types.SELECT_TAB:
+      return {
+        ...state,
+        instructions: '',
+        tab_selector: action.payload
+      };
     case types.UPDATE_INPUT:
       return {
         ...state,

@@ -1,4 +1,5 @@
 import axios from 'axios';
+// import store from '../store';
 import { types } from '../actions/ActionTypes';
 
 export default class Actions {
@@ -16,6 +17,13 @@ export default class Actions {
     return {
       type: types.LOADING,
       payload: true
+    };
+  }
+
+  handleTabChange (val) {
+    return {
+      type: types.SELECT_TAB,
+      payload: val
     };
   }
 
@@ -46,16 +54,16 @@ export default class Actions {
     console.log('actions instructions.length: ', instructions.length);
     return dispatch => {
       dispatch(this.loading());
+
       // axios.get does not have req.body; req.body: {instructions, drone_counts}
   	  axios.post(`${this.apiHost}${this.urlEndpoint}`, {instructions, drone_counts})
     		.then((res) => {
-    			console.log('res.data: ', res.data);
+    			// console.log('res.data: ', res.data);
           dispatch({type: types.FETCH, payload: res.data.uniqueShots});
     		})
     		.catch((err) => {
     			dispatch({type: types.ERR, payload: err.message});
     		});
-
     };
   };
 

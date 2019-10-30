@@ -21,6 +21,7 @@ export function Drone (props) {
 
 const mapStateToProps = state => {
   return {
+    tab_selector: state.drone.tab_selector,
     instructions: state.drone.instructions,
     drone_counts: state.drone.drone_counts,
     message: state.drone.message,
@@ -32,7 +33,8 @@ const mapStateToProps = state => {
 
 const mapDispachToProps = dispatch => {
   return {
-    updateInput: (e) => dispatch(droneActions.updateInput(e)),
+    handleTabChange: (val) => dispatch(droneActions.handleTabChange(val)),
+    updateInput: (input) => dispatch(droneActions.updateInput(input)),    
     updateDroneCounts: (e) => dispatch(droneActions.updateDroneCounts(e)),
     updateExecution: (ts) => dispatch(droneActions.updateExecution(ts)),
     fetchResult: (e, ins, counts) => dispatch(droneActions.fetchResult(e, ins, counts))
