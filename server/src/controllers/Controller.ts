@@ -1,8 +1,8 @@
 // import module
-const { Deduplication } = require('../algorithm/Deduplication');
+import { Deduplication } from '../algorithm/Deduplication';
 
 // controller
-module.exports = (req, res, next) => {
+export default (req, res, next) => {
   console.log('req.body: ', req.body);
   const { instructions, drone_counts } = req.body;
 

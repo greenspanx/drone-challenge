@@ -7,3 +7,13 @@ it('renders without crashing', () => {
   ReactDOM.render(<App />, div);
   ReactDOM.unmountComponentAtNode(div);
 });
+
+it('test fake component', () => {
+  const result = true;
+  expect(result).toBeTruthy();
+});
+
+it('test fake component', () => {
+  const result = true;
+  expect(result).toBeTruthy();
+});

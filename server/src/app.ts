@@ -1,20 +1,21 @@
-'use strict'
-const express = require('express');
-const bodyParser = require('body-parser');
-const morgan = require('morgan');
-const fs = require('fs');
-const app = express();
-const cors = require('cors');
-const path = require('path');
+import express from 'express';
+import bodyParser from 'body-parser';
+import morgan from 'morgan';
+import fs from 'fs';
 
-const {
+import cors from 'cors';
+import path from 'path';
+
+const app = express();
+
+import {
 	logErrors,
 	clientErrorHandler,
 	error404Handler,
 	finalErrorHandler,
-} = require('./utils');
+} from './utils';
 
-const Controller = require('./controllers/Controller');
+import Controller from './controllers/Controller';
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -33,7 +34,7 @@ app.get('/', (req, res, next) => {
 });
 
 // part 1 and part 2
-app.post('/api/v1/drone', Controller);
+// app.post('/api/v1/drone', Controller);
 
 // Error handler here
 // Error handler from './utils'
@@ -43,4 +44,4 @@ app.use(error404Handler);
 app.use(finalErrorHandler);
 
 
-module.exports = app;
+export default app;
